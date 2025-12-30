@@ -1,0 +1,261 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # INFRASTRUCTURE SERVICES
+  # ==========================================
+
+  event-db:
+    image: postgres:15-alpine
+    container_name: tb-event-db
+    environment:
+      POSTGRES_DB: ticketblitz_event
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abhinav195
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/event:/var/lib/postgresql/data
+    networks:
+      - ticketblitz-net
+
+  booking-db:
+    image: postgres:15-alpine
+    container_name: tb-booking-db
+    environment:
+      POSTGRES_DB: ticketblitz_booking
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abhinav195
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./data/booking:/var/lib/postgresql/data
+    networks:
+      - ticketblitz-net
+
+  user-db:
+    image: postgres:15-alpine
+    container_name: tb-user-db
+    environment:
+      POSTGRES_DB: ticketblitz_user
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abhinav195
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./data/user:/var/lib/postgresql/data
+    networks:
+      - ticketblitz-net
+
+  payment-db:
+    image: postgres:15-alpine
+    container_name: tb-payment-db
+    environment:
+      POSTGRES_DB: ticketblitz_payment
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abhinav195
+    ports:
+      - "5436:5432"
+    volumes:
+      - ./data/payment:/var/lib/postgresql/data
+    networks:
+      - ticketblitz-net
+
+  redis:
+    image: redis:alpine
+    container_name: tb-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ticketblitz-net
+
+  minio:
+    image: minio/minio
+    container_name: tb-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./data/minio:/data
+    networks:
+      - ticketblitz-net
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: tb-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - ticketblitz-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: tb-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: tb-zookeeper:2181
+      # Localhost listens on 9092, Internal Docker services listen on 29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://tb-kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - ticketblitz-net
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: tb-jaeger
+    ports:
+      - "16686:16686" # UI
+      - "4317:4317"
+      - "4318:4318"
+      - "9411:9411"   # Zipkin
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    networks:
+      - ticketblitz-net
+
+  # ==========================================
+  # MICROSERVICES
+  # ==========================================
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: tb-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      # These override the defaults in application.yml
+      - AUTH_SERVICE_URL=http://tb-auth-service:8081
+      - EVENT_SERVICE_URL=http://tb-event-service:8082
+      - BOOKING_SERVICE_URL=http://tb-booking-service:8083
+      - PAYMENT_SERVICE_URL=http://tb-payment-service:8084
+      - USER_SERVICE_URL=http://tb-user-service:8085
+      - NOTIFICATION_SERVICE_URL=http://tb-notification-service:8086
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      - auth-service
+      - event-service
+      - booking-service
+      - payment-service
+      - user-service
+      - notification-service
+      - jaeger
+    networks:
+      - ticketblitz-net
+
+  auth-service:
+    build: ./auth-service
+    container_name: tb-auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+      - USER_SERVICE_URL=http://tb-user-service:8085
+    networks:
+      - ticketblitz-net
+
+  event-service:
+    build: ./event-service
+    container_name: tb-event-service
+    ports:
+      - "8082:8082"
+    environment:
+      - DB_HOST=tb-event-db
+      - DB_PORT=5432
+      - REDIS_HOST=tb-redis
+      - MINIO_URL=http://tb-minio:9000
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      - event-db
+      - redis
+      - minio
+    networks:
+      - ticketblitz-net
+
+  booking-service:
+    build: ./booking-service
+    container_name: tb-booking-service
+    ports:
+      - "8083:8083"
+    environment:
+      - DB_HOST=tb-booking-db
+      - DB_PORT=5432
+      # Connects to internal listener on port 29092
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+      - EVENT_SERVICE_URL=http://tb-event-service:8082
+      - PAYMENT_SERVICE_URL=http://tb-payment-service:8084
+      - USER_SERVICE_URL=http://tb-user-service:8085
+    depends_on:
+      - booking-db
+      - event-service
+      - user-service
+      - kafka
+    networks:
+      - ticketblitz-net
+
+  payment-service:
+    build: ./payment-service
+    container_name: tb-payment-service
+    ports:
+      - "8084:8084"
+    environment:
+      - DB_HOST=tb-payment-db
+      - DB_PORT=5432
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+      - BOOKING_SERVICE_URL=http://tb-booking-service:8083
+      - USER_SERVICE_URL=http://tb-user-service:8085
+    depends_on:
+      - payment-db
+      - user-service
+      - kafka
+    networks:
+      - ticketblitz-net
+
+  user-service:
+    build: ./user-service
+    container_name: tb-user-service
+    ports:
+      - "8085:8085"
+    environment:
+      - DB_HOST=tb-user-db
+      - DB_PORT=5432
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      - user-db
+      - auth-service
+    networks:
+      - ticketblitz-net
+
+  notification-service:
+    build: ./notification-service
+    container_name: tb-notification-service
+    ports:
+      - "8086:8086"
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
+      - USER_SERVICE_URL=http://tb-user-service:8085
+      - EVENT_SERVICE_URL=http://tb-event-service:8082
+      - BOOKING_SERVICE_URL=http://tb-booking-service:8083
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      - kafka
+    networks:
+      - ticketblitz-net
+
+networks:
+  ticketblitz-net:
+    driver: bridge

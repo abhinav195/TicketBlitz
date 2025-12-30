@@ -1,0 +1,47 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    # Local: localhost:5435 | Docker: user-db:5432
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5435}/ticketblitz_user
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:abhinav195}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
+  propagation:
+    type: [ "w3c", "b3" ]
+
+logging:
+  level:
+    root: INFO
+    com.ticketblitz.user: DEBUG
+    org.hibernate.SQL: DEBUG
+  file:
+    name: logs/user-service.log
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+jwt:
+  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
+  expiration: 86400000

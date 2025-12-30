@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
+  propagation:
+    type: [ "w3c", "b3" ]
+
+jwt:
+  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
+  expiration: 86400000
+
+logging:
+  file:
+    name: logs/auth-service.log
+  level:
+    root: INFO
+    com.ticketblitz: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+user-service:
+  url: ${USER_SERVICE_URL:http://localhost:8085}

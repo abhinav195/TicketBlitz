@@ -1,0 +1,67 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: com.ticketblitz.notification.dto.PaymentUpdateEvent
+        spring.json.use.type.headers: false
+
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: 017d6228cba26f
+    password: 0b7c9ca19c1b02
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
+  propagation:
+    type: [ "w3c", "b3" ]
+
+logging:
+  level:
+    root: INFO
+    com.ticketblitz: DEBUG
+  file:
+    name: logs/notification-service.log
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+gemini:
+  api-key: AIzaSyB5ZgbsKSrXcWAL7waS2ZfV7pMhrmSYfrY
+  url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+
+user-service:
+  url: ${USER_SERVICE_URL:http://localhost:8085}
+event-service:
+  url: ${EVENT_SERVICE_URL:http://localhost:8082}
+booking-service:
+  url: ${BOOKING_SERVICE_URL:http://localhost:8083}
+
+jwt:
+  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
+  expiration: 86400000

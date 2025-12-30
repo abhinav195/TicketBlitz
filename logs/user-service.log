@@ -1,0 +1,728 @@
+2025-12-28T00:20:41.688+05:30  INFO 23728 --- [user-service] [main] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 23728 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T00:20:41.704+05:30 DEBUG 23728 --- [user-service] [main] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T00:20:41.705+05:30  INFO 23728 --- [user-service] [main] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T00:20:42.449+05:30  INFO 23728 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T00:20:42.520+05:30  INFO 23728 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 1 JPA repository interface.
+2025-12-28T00:20:43.190+05:30  INFO 23728 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T00:20:43.208+05:30  INFO 23728 --- [user-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T00:20:43.208+05:30  INFO 23728 --- [user-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T00:20:43.285+05:30  INFO 23728 --- [user-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T00:20:43.285+05:30  INFO 23728 --- [user-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1526 ms
+2025-12-28T00:20:43.337+05:30 DEBUG 23728 --- [user-service] [main] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T00:20:43.398+05:30  INFO 23728 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T00:20:43.669+05:30  INFO 23728 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@64502326
+2025-12-28T00:20:43.671+05:30  INFO 23728 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T00:20:43.768+05:30  INFO 23728 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T00:20:43.769+05:30  INFO 23728 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T00:20:43.769+05:30  INFO 23728 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T00:20:43.783+05:30  INFO 23728 --- [user-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T00:20:43.982+05:30  INFO 23728 --- [user-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.085s)
+2025-12-28T00:20:44.026+05:30  INFO 23728 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T00:20:44.032+05:30  INFO 23728 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T00:20:44.155+05:30  INFO 23728 --- [user-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T00:20:44.241+05:30  INFO 23728 --- [user-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T00:20:44.280+05:30  INFO 23728 --- [user-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T00:20:44.563+05:30  INFO 23728 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T00:20:45.592+05:30  INFO 23728 --- [user-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T00:20:45.725+05:30  INFO 23728 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T00:20:46.121+05:30  WARN 23728 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T00:20:46.145+05:30  WARN 23728 --- [user-service] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 5d0f5280-9922-4d76-9218-0f4c7de872e9
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T00:20:46.407+05:30  INFO 23728 --- [user-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4769e70c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@69346100, org.springframework.security.web.context.SecurityContextHolderFilter@20e9b10b, org.springframework.security.web.header.HeaderWriterFilter@1d722bff, org.springframework.web.filter.CorsFilter@16a14076, org.springframework.security.web.authentication.logout.LogoutFilter@26bbbe9e, com.ticketblitz.user.config.JwtFilter@321ca237, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4a00d591, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4fae4c3b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@65293ca5, org.springframework.security.web.access.ExceptionTranslationFilter@72851503, org.springframework.security.web.access.intercept.AuthorizationFilter@769b1d1c]
+2025-12-28T00:20:46.648+05:30  INFO 23728 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T00:20:46.655+05:30  INFO 23728 --- [user-service] [main] c.t.user.UserServiceApplication          : Started UserServiceApplication in 5.508 seconds (process running for 6.005)
+2025-12-28T00:23:32.826+05:30  INFO 23728 --- [user-service] [http-nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T00:23:32.827+05:30  INFO 23728 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T00:23:32.829+05:30  INFO 23728 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-28T00:23:33.155+05:30 DEBUG 23728 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T00:40:14.455+05:30 DEBUG 23728 --- [user-service] [http-nio-8085-exec-3] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T00:50:57.016+05:30  INFO 23728 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T00:50:57.019+05:30  INFO 23728 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T00:50:57.027+05:30  INFO 23728 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T01:12:42.571+05:30  INFO 5392 --- [user-service] [main] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 5392 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T01:12:42.572+05:30 DEBUG 5392 --- [user-service] [main] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T01:12:42.574+05:30  INFO 5392 --- [user-service] [main] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T01:12:43.216+05:30  INFO 5392 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T01:12:43.263+05:30  INFO 5392 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 1 JPA repository interface.
+2025-12-28T01:12:43.784+05:30  INFO 5392 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T01:12:43.794+05:30  INFO 5392 --- [user-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T01:12:43.795+05:30  INFO 5392 --- [user-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T01:12:43.848+05:30  INFO 5392 --- [user-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T01:12:43.848+05:30  INFO 5392 --- [user-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1221 ms
+2025-12-28T01:12:43.884+05:30 DEBUG 5392 --- [user-service] [main] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T01:12:43.935+05:30  INFO 5392 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T01:12:44.125+05:30  INFO 5392 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b80e5a9
+2025-12-28T01:12:44.127+05:30  INFO 5392 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T01:12:44.190+05:30  INFO 5392 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T01:12:44.190+05:30  INFO 5392 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T01:12:44.190+05:30  INFO 5392 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T01:12:44.206+05:30  INFO 5392 --- [user-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T01:12:44.275+05:30  INFO 5392 --- [user-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.035s)
+2025-12-28T01:12:44.320+05:30  INFO 5392 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T01:12:44.324+05:30  INFO 5392 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T01:12:44.424+05:30  INFO 5392 --- [user-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T01:12:44.493+05:30  INFO 5392 --- [user-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T01:12:44.525+05:30  INFO 5392 --- [user-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T01:12:44.767+05:30  INFO 5392 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T01:12:45.655+05:30  INFO 5392 --- [user-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T01:12:45.725+05:30  INFO 5392 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T01:12:46.033+05:30  WARN 5392 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T01:12:46.054+05:30  WARN 5392 --- [user-service] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 39d673d8-b67d-43cf-9406-37a8bef87555
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T01:12:46.261+05:30  INFO 5392 --- [user-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4f8641d1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6d6ddeb5, org.springframework.security.web.context.SecurityContextHolderFilter@43735ea0, org.springframework.security.web.header.HeaderWriterFilter@4abb4041, org.springframework.web.filter.CorsFilter@3e574f9c, org.springframework.security.web.authentication.logout.LogoutFilter@35d145fb, com.ticketblitz.user.config.JwtFilter@29050de5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@578781f7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7bbd944e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5cfa9e8a, org.springframework.security.web.access.ExceptionTranslationFilter@4125bc3c, org.springframework.security.web.access.intercept.AuthorizationFilter@1e7797db]
+2025-12-28T01:12:46.510+05:30  INFO 5392 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T01:12:46.521+05:30  INFO 5392 --- [user-service] [main] c.t.user.UserServiceApplication          : Started UserServiceApplication in 4.363 seconds (process running for 4.752)
+2025-12-28T01:18:14.064+05:30  INFO 5392 --- [user-service] [http-nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T01:18:14.064+05:30  INFO 5392 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T01:18:14.066+05:30  INFO 5392 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-28T01:18:14.438+05:30 DEBUG 5392 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T01:18:56.408+05:30 DEBUG 5392 --- [user-service] [http-nio-8085-exec-3] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T01:19:00.640+05:30 DEBUG 5392 --- [user-service] [http-nio-8085-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T01:56:48.316+05:30  INFO 5392 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T01:56:48.321+05:30  INFO 5392 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T01:56:48.326+05:30  INFO 5392 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T01:58:14.990+05:30  INFO 22832 --- [user-service] [main] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 22832 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T01:58:14.992+05:30 DEBUG 22832 --- [user-service] [main] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T01:58:14.994+05:30  INFO 22832 --- [user-service] [main] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T01:58:15.652+05:30  INFO 22832 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T01:58:15.698+05:30  INFO 22832 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39 ms. Found 1 JPA repository interface.
+2025-12-28T01:58:16.218+05:30  INFO 22832 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T01:58:16.228+05:30  INFO 22832 --- [user-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T01:58:16.228+05:30  INFO 22832 --- [user-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T01:58:16.277+05:30  INFO 22832 --- [user-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T01:58:16.277+05:30  INFO 22832 --- [user-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1224 ms
+2025-12-28T01:58:16.313+05:30 DEBUG 22832 --- [user-service] [main] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T01:58:16.358+05:30  INFO 22832 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T01:58:16.659+05:30  INFO 22832 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b80e5a9
+2025-12-28T01:58:16.660+05:30  INFO 22832 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T01:58:16.732+05:30  INFO 22832 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T01:58:16.732+05:30  INFO 22832 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T01:58:16.732+05:30  INFO 22832 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T01:58:16.745+05:30  INFO 22832 --- [user-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T01:58:16.888+05:30  INFO 22832 --- [user-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.063s)
+2025-12-28T01:58:16.912+05:30  INFO 22832 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T01:58:16.916+05:30  INFO 22832 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T01:58:16.991+05:30  INFO 22832 --- [user-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T01:58:17.039+05:30  INFO 22832 --- [user-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T01:58:17.069+05:30  INFO 22832 --- [user-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T01:58:17.262+05:30  INFO 22832 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T01:58:18.020+05:30  INFO 22832 --- [user-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T01:58:18.113+05:30  INFO 22832 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T01:58:18.452+05:30  WARN 22832 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T01:58:18.479+05:30  WARN 22832 --- [user-service] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 1fbe5cea-547d-4742-966f-1f1f239f567f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T01:58:18.706+05:30  INFO 22832 --- [user-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e574f9c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5cfa9e8a, org.springframework.security.web.context.SecurityContextHolderFilter@578781f7, org.springframework.security.web.header.HeaderWriterFilter@48dc9950, org.springframework.web.filter.CorsFilter@218fc40d, org.springframework.security.web.authentication.logout.LogoutFilter@6e757f39, com.ticketblitz.user.config.JwtFilter@29050de5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22e253c7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2480acc3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@22942eff, org.springframework.security.web.access.ExceptionTranslationFilter@4abb4041, org.springframework.security.web.access.intercept.AuthorizationFilter@6fc1a1d5]
+2025-12-28T01:58:18.921+05:30  INFO 22832 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T01:58:18.928+05:30  INFO 22832 --- [user-service] [main] c.t.user.UserServiceApplication          : Started UserServiceApplication in 4.378 seconds (process running for 4.775)
+2025-12-28T02:00:51.969+05:30  INFO 22832 --- [user-service] [http-nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T02:00:51.970+05:30  INFO 22832 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T02:00:51.973+05:30  INFO 22832 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-28T02:00:52.310+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T02:01:45.496+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-2] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:01:49.985+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:12:26.430+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-7] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:12:28.234+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:21:13.410+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:21:15.141+05:30 DEBUG 22832 --- [user-service] [http-nio-8085-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T02:44:56.570+05:30  INFO 22832 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T02:44:56.585+05:30  INFO 22832 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T02:44:56.593+05:30  INFO 22832 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T19:19:07.055+05:30  INFO 16748 --- [user-service] [main] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 16748 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T19:19:07.057+05:30 DEBUG 16748 --- [user-service] [main] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T19:19:07.058+05:30  INFO 16748 --- [user-service] [main] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T19:19:07.860+05:30  INFO 16748 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T19:19:07.926+05:30  INFO 16748 --- [user-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57 ms. Found 1 JPA repository interface.
+2025-12-28T19:19:08.486+05:30  INFO 16748 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T19:19:08.498+05:30  INFO 16748 --- [user-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T19:19:08.500+05:30  INFO 16748 --- [user-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T19:19:08.557+05:30  INFO 16748 --- [user-service] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T19:19:08.558+05:30  INFO 16748 --- [user-service] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1439 ms
+2025-12-28T19:19:08.598+05:30 DEBUG 16748 --- [user-service] [main] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T19:19:08.652+05:30  INFO 16748 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T19:19:08.948+05:30  INFO 16748 --- [user-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b80e5a9
+2025-12-28T19:19:08.950+05:30  INFO 16748 --- [user-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T19:19:09.041+05:30  INFO 16748 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T19:19:09.041+05:30  INFO 16748 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T19:19:09.041+05:30  INFO 16748 --- [user-service] [main] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T19:19:09.069+05:30  INFO 16748 --- [user-service] [main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T19:19:09.213+05:30  INFO 16748 --- [user-service] [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.052s)
+2025-12-28T19:19:09.233+05:30  INFO 16748 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T19:19:09.236+05:30  INFO 16748 --- [user-service] [main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T19:19:09.319+05:30  INFO 16748 --- [user-service] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T19:19:09.390+05:30  INFO 16748 --- [user-service] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T19:19:09.429+05:30  INFO 16748 --- [user-service] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T19:19:09.684+05:30  INFO 16748 --- [user-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T19:19:10.770+05:30  INFO 16748 --- [user-service] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T19:19:10.969+05:30  INFO 16748 --- [user-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T19:19:11.401+05:30  WARN 16748 --- [user-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T19:19:11.431+05:30  WARN 16748 --- [user-service] [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 280d9aa7-ab4a-4406-bd5f-16452fe0d2e2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T19:19:11.714+05:30  INFO 16748 --- [user-service] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5cfa9e8a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@218fc40d, org.springframework.security.web.context.SecurityContextHolderFilter@7bbd944e, org.springframework.security.web.header.HeaderWriterFilter@43735ea0, org.springframework.web.filter.CorsFilter@22942eff, org.springframework.security.web.authentication.logout.LogoutFilter@4e312811, com.ticketblitz.user.config.JwtFilter@29050de5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2480acc3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4fe3199d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@26bbbe9e, org.springframework.security.web.access.ExceptionTranslationFilter@247415be, org.springframework.security.web.access.intercept.AuthorizationFilter@4f8641d1]
+2025-12-28T19:19:11.978+05:30  INFO 16748 --- [user-service] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T19:19:11.985+05:30  INFO 16748 --- [user-service] [main] c.t.user.UserServiceApplication          : Started UserServiceApplication in 5.422 seconds (process running for 5.955)
+2025-12-28T19:20:04.665+05:30  INFO 16748 --- [user-service] [http-nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T19:20:04.666+05:30  INFO 16748 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T19:20:04.667+05:30  INFO 16748 --- [user-service] [http-nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-28T19:20:05.017+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T19:20:58.761+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-2] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:21:03.570+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:32:16.092+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-7] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:32:18.033+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:37:25.736+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-1] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:37:28.488+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:40:36.424+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-5] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:40:38.889+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:49:07.095+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-9] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:49:09.039+05:30 DEBUG 16748 --- [user-service] [http-nio-8085-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T19:52:05.674+05:30  INFO 16748 --- [user-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T19:52:05.677+05:30  INFO 16748 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T19:52:05.687+05:30  INFO 16748 --- [user-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T21:12:38.550+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 4580 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T21:12:38.552+05:30 DEBUG [user-service,,] 4580 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T21:12:38.554+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T21:12:39.530+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T21:12:39.574+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 1 JPA repository interface.
+2025-12-28T21:12:40.285+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T21:12:40.297+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T21:12:40.297+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T21:12:40.355+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T21:12:40.356+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1751 ms
+2025-12-28T21:12:40.662+05:30 DEBUG [user-service,,] 4580 --- [user-service] [main] [                                                 ] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T21:12:40.722+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T21:12:40.916+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2d4f67e
+2025-12-28T21:12:40.918+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T21:12:40.995+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T21:12:40.996+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T21:12:40.996+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T21:12:41.014+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T21:12:41.124+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.052s)
+2025-12-28T21:12:41.145+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T21:12:41.148+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T21:12:41.244+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T21:12:41.288+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T21:12:41.321+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T21:12:41.508+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T21:12:42.478+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T21:12:42.613+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T21:12:43.022+05:30  WARN [user-service,,] 4580 --- [user-service] [main] [                                                 ] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T21:12:43.067+05:30  WARN [user-service,,] 4580 --- [user-service] [main] [                                                 ] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 89955646-c258-4e4d-86cf-dbcb95308256
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T21:12:43.425+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-12-28T21:12:43.480+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3d837af7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@446dc997, org.springframework.security.web.context.SecurityContextHolderFilter@4b7704ec, org.springframework.security.web.header.HeaderWriterFilter@4676fcd9, org.springframework.web.filter.CorsFilter@32cfd722, org.springframework.security.web.authentication.logout.LogoutFilter@2b3ac26d, com.ticketblitz.user.config.JwtFilter@6546371, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@688e6d4e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2a2cdba0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@69815126, org.springframework.security.web.access.ExceptionTranslationFilter@66d9c846, org.springframework.security.web.access.intercept.AuthorizationFilter@5d18a787]
+2025-12-28T21:12:43.910+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T21:12:43.922+05:30  INFO [user-service,,] 4580 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Started UserServiceApplication in 5.808 seconds (process running for 6.211)
+2025-12-28T21:14:20.774+05:30  INFO [user-service,,] 4580 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T21:14:20.775+05:30  INFO [user-service,,] 4580 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T21:14:20.777+05:30  INFO [user-service,,] 4580 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-12-28T21:14:21.121+05:30 DEBUG [user-service,69515054a154213402d00323c5d38ab4,3675a684f2f6215d] 4580 --- [user-service] [http-nio-8085-exec-1] [69515054a154213402d00323c5d38ab4-3675a684f2f6215d] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T21:14:24.687+05:30  WARN [user-service,,] 4580 --- [user-service] [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender@68bd8ca7}] [                                                 ] z.r.AsyncReporter$BoundedAsyncReporter   : Spans were dropped due to exceptions. All subsequent errors will be logged at FINE level.
+2025-12-28T21:14:24.688+05:30  WARN [user-service,,] 4580 --- [user-service] [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender@68bd8ca7}] [                                                 ] z.r.AsyncReporter$BoundedAsyncReporter   : Dropped 5 spans due to ResourceAccessException(I/O error on POST request for "http://jaeger:9411/api/v2/spans": jaeger)
+
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://jaeger:9411/api/v2/spans": jaeger
+	at org.springframework.web.client.RestTemplate.createResourceAccessException(RestTemplate.java:915) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:895) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:790) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:672) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender$RestTemplateHttpPostCall.doExecute(ZipkinRestTemplateSender.java:68) ~[spring-boot-actuator-autoconfigure-3.2.3.jar:3.2.3]
+	at org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender$RestTemplateHttpPostCall.doExecute(ZipkinRestTemplateSender.java:48) ~[spring-boot-actuator-autoconfigure-3.2.3.jar:3.2.3]
+	at zipkin2.Call$Base.execute(Call.java:391) ~[zipkin-2.23.2.jar:na]
+	at zipkin2.reporter.AsyncReporter$BoundedAsyncReporter.flush(AsyncReporter.java:299) ~[zipkin-reporter-2.16.3.jar:na]
+	at zipkin2.reporter.AsyncReporter$Flusher.run(AsyncReporter.java:378) ~[zipkin-reporter-2.16.3.jar:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: java.net.UnknownHostException: jaeger
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:178) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:280) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1319) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1252) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1138) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1067) ~[na:na]
+	at org.springframework.http.client.SimpleClientHttpRequest.executeInternal(SimpleClientHttpRequest.java:79) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.http.client.AbstractStreamingClientHttpRequest.executeInternal(AbstractStreamingClientHttpRequest.java:70) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:889) ~[spring-web-6.1.4.jar:6.1.4]
+	... 8 common frames omitted
+
+2025-12-28T21:15:03.822+05:30 DEBUG [user-service,6951507f6c9d24967994e79380474951,8e0feab049ed3947] 4580 --- [user-service] [http-nio-8085-exec-2] [6951507f6c9d24967994e79380474951-8e0feab049ed3947] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T21:15:08.660+05:30 DEBUG [user-service,69515084023f6b892f618031aee5469f,403493f120a258c9] 4580 --- [user-service] [http-nio-8085-exec-3] [69515084023f6b892f618031aee5469f-403493f120a258c9] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T21:18:52.695+05:30  INFO [user-service,,] 4580 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T21:18:52.701+05:30  INFO [user-service,,] 4580 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T21:18:52.714+05:30  INFO [user-service,,] 4580 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T21:25:28.332+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 1996 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T21:25:28.334+05:30 DEBUG [user-service,,] 1996 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T21:25:28.335+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T21:25:29.307+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T21:25:29.361+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 1 JPA repository interface.
+2025-12-28T21:25:30.064+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T21:25:30.076+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T21:25:30.076+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T21:25:30.129+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T21:25:30.129+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1734 ms
+2025-12-28T21:25:30.406+05:30 DEBUG [user-service,,] 1996 --- [user-service] [main] [                                                 ] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T21:25:30.469+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T21:25:30.727+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f408ab6
+2025-12-28T21:25:30.729+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T21:25:30.804+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T21:25:30.804+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T21:25:30.804+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T21:25:30.819+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T21:25:30.945+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.049s)
+2025-12-28T21:25:30.969+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T21:25:30.973+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T21:25:31.061+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T21:25:31.107+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T21:25:31.144+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T21:25:31.347+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T21:25:32.275+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T21:25:32.420+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T21:25:32.809+05:30  WARN [user-service,,] 1996 --- [user-service] [main] [                                                 ] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T21:25:32.858+05:30  WARN [user-service,,] 1996 --- [user-service] [main] [                                                 ] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: cbb399ed-d3ba-41af-be72-ab01875b6981
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T21:25:33.298+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-12-28T21:25:33.379+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@259647f2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@54c9c09c, org.springframework.security.web.context.SecurityContextHolderFilter@5a004dd4, org.springframework.security.web.header.HeaderWriterFilter@209ab1d7, org.springframework.web.filter.CorsFilter@6517bc6b, org.springframework.security.web.authentication.logout.LogoutFilter@21312b5, com.ticketblitz.user.config.JwtFilter@7ef8e623, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@cf933b1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@33e80a27, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@53d3d604, org.springframework.security.web.access.ExceptionTranslationFilter@2ff4d61b, org.springframework.security.web.access.intercept.AuthorizationFilter@2ca3a203]
+2025-12-28T21:25:33.913+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T21:25:33.925+05:30  INFO [user-service,,] 1996 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Started UserServiceApplication in 6.103 seconds (process running for 6.59)
+2025-12-28T21:26:16.814+05:30  INFO [user-service,,] 1996 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T21:26:16.815+05:30  INFO [user-service,,] 1996 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T21:26:16.818+05:30  INFO [user-service,,] 1996 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2025-12-28T21:26:17.234+05:30 DEBUG [user-service,69515320643f424c879766379856340b,06c35db2a0a4f59e] 1996 --- [user-service] [http-nio-8085-exec-1] [69515320643f424c879766379856340b-06c35db2a0a4f59e] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T21:26:20.690+05:30  WARN [user-service,,] 1996 --- [user-service] [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender@5b0902b4}] [                                                 ] z.r.AsyncReporter$BoundedAsyncReporter   : Spans were dropped due to exceptions. All subsequent errors will be logged at FINE level.
+2025-12-28T21:26:20.691+05:30  WARN [user-service,,] 1996 --- [user-service] [AsyncReporter{org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender@5b0902b4}] [                                                 ] z.r.AsyncReporter$BoundedAsyncReporter   : Dropped 5 spans due to ResourceAccessException(I/O error on POST request for "http://jaeger:9411/api/v2/spans": jaeger)
+
+org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://jaeger:9411/api/v2/spans": jaeger
+	at org.springframework.web.client.RestTemplate.createResourceAccessException(RestTemplate.java:915) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:895) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:790) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:672) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender$RestTemplateHttpPostCall.doExecute(ZipkinRestTemplateSender.java:68) ~[spring-boot-actuator-autoconfigure-3.2.3.jar:3.2.3]
+	at org.springframework.boot.actuate.autoconfigure.tracing.zipkin.ZipkinRestTemplateSender$RestTemplateHttpPostCall.doExecute(ZipkinRestTemplateSender.java:48) ~[spring-boot-actuator-autoconfigure-3.2.3.jar:3.2.3]
+	at zipkin2.Call$Base.execute(Call.java:391) ~[zipkin-2.23.2.jar:na]
+	at zipkin2.reporter.AsyncReporter$BoundedAsyncReporter.flush(AsyncReporter.java:299) ~[zipkin-reporter-2.16.3.jar:na]
+	at zipkin2.reporter.AsyncReporter$Flusher.run(AsyncReporter.java:378) ~[zipkin-reporter-2.16.3.jar:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: java.net.UnknownHostException: jaeger
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:751) ~[na:na]
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:178) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:531) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:636) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:280) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386) ~[na:na]
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1319) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1252) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1138) ~[na:na]
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1067) ~[na:na]
+	at org.springframework.http.client.SimpleClientHttpRequest.executeInternal(SimpleClientHttpRequest.java:79) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.http.client.AbstractStreamingClientHttpRequest.executeInternal(AbstractStreamingClientHttpRequest.java:70) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66) ~[spring-web-6.1.4.jar:6.1.4]
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:889) ~[spring-web-6.1.4.jar:6.1.4]
+	... 8 common frames omitted
+
+2025-12-28T21:27:03.475+05:30 DEBUG [user-service,6951534ec294d3d0f12f7800dcfe76de,b67ed53c67ce1d9e] 1996 --- [user-service] [http-nio-8085-exec-2] [6951534ec294d3d0f12f7800dcfe76de-b67ed53c67ce1d9e] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T21:27:08.322+05:30 DEBUG [user-service,695153541ee4478d5bee8ee230eb2e09,0a4f9cef54a1ab97] 1996 --- [user-service] [http-nio-8085-exec-3] [695153541ee4478d5bee8ee230eb2e09-0a4f9cef54a1ab97] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T22:02:31.211+05:30  INFO [user-service,,] 1996 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T22:02:31.215+05:30  INFO [user-service,,] 1996 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T22:02:31.222+05:30  INFO [user-service,,] 1996 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-28T22:05:01.154+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Starting UserServiceApplication using Java 21.0.7 with PID 25348 (C:\FS Projects\TicketBlitz\user-service\target\classes started by Abhinav Pathak in C:\FS Projects\TicketBlitz)
+2025-12-28T22:05:01.157+05:30 DEBUG [user-service,,] 25348 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Running with Spring Boot v3.2.3, Spring v6.1.4
+2025-12-28T22:05:01.158+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+2025-12-28T22:05:02.115+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-28T22:05:02.173+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 50 ms. Found 1 JPA repository interface.
+2025-12-28T22:05:02.967+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2025-12-28T22:05:02.982+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-28T22:05:02.982+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2025-12-28T22:05:03.058+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-28T22:05:03.059+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1855 ms
+2025-12-28T22:05:03.415+05:30 DEBUG [user-service,,] 25348 --- [user-service] [main] [                                                 ] com.ticketblitz.user.config.JwtFilter    : Filter 'jwtFilter' configured for use
+2025-12-28T22:05:03.490+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-28T22:05:03.708+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5a8d676e
+2025-12-28T22:05:03.709+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-28T22:05:03.783+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2025-12-28T22:05:03.783+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2025-12-28T22:05:03.783+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.c.internal.license.VersionPrinter    : 
+2025-12-28T22:05:03.799+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5435/ticketblitz_user (PostgreSQL 15.15)
+2025-12-28T22:05:03.877+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.045s)
+2025-12-28T22:05:03.914+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+2025-12-28T22:05:03.918+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-28T22:05:04.025+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-28T22:05:04.111+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-12-28T22:05:04.156+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-28T22:05:04.452+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-28T22:05:05.500+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-28T22:05:05.600+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T22:05:06.060+05:30  WARN [user-service,,] 25348 --- [user-service] [main] [                                                 ] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-28T22:05:06.118+05:30  WARN [user-service,,] 25348 --- [user-service] [main] [                                                 ] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 09ef538b-9275-4bd2-a22c-a3ec17937c17
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-12-28T22:05:06.572+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-12-28T22:05:06.635+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@e8ef60b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3217e970, org.springframework.security.web.context.SecurityContextHolderFilter@2ff4d61b, org.springframework.security.web.header.HeaderWriterFilter@4ca83ec3, org.springframework.web.filter.CorsFilter@6d0d5147, org.springframework.security.web.authentication.logout.LogoutFilter@5d18a787, com.ticketblitz.user.config.JwtFilter@27bb4dc5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@58b03882, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@209ab1d7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a370c7c, org.springframework.security.web.access.ExceptionTranslationFilter@4ff3af97, org.springframework.security.web.access.intercept.AuthorizationFilter@66464f27]
+2025-12-28T22:05:07.219+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8085 (http) with context path ''
+2025-12-28T22:05:07.232+05:30  INFO [user-service,,] 25348 --- [user-service] [main] [                                                 ] c.t.user.UserServiceApplication          : Started UserServiceApplication in 6.534 seconds (process running for 6.954)
+2025-12-28T22:05:32.708+05:30  INFO [user-service,,] 25348 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-28T22:05:32.708+05:30  INFO [user-service,,] 25348 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-28T22:05:32.710+05:30  INFO [user-service,,] 25348 --- [user-service] [http-nio-8085-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-12-28T22:05:33.056+05:30 DEBUG [user-service,69515c540f985475e99831bbb321dcca,4321083cc50b16ba] 25348 --- [user-service] [http-nio-8085-exec-1] [69515c540f985475e99831bbb321dcca-4321083cc50b16ba] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.username=?
+2025-12-28T22:06:18.416+05:30 DEBUG [user-service,69515c81c88dc91b5eccd2855ad82b15,fb048b99d5a2f74d] 25348 --- [user-service] [http-nio-8085-exec-2] [69515c81c88dc91b5eccd2855ad82b15-fb048b99d5a2f74d] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T22:06:22.912+05:30 DEBUG [user-service,69515c86e8e4535a86d42afb3ec28525,5be833d2a38e190f] 25348 --- [user-service] [http-nio-8085-exec-3] [69515c86e8e4535a86d42afb3ec28525-5be833d2a38e190f] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.password,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-12-28T23:11:57.820+05:30  WARN [user-service,,] 25348 --- [user-service] [HikariPool-1 housekeeper] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=25m53s312ms589µs900ns).
+2025-12-28T23:12:30.239+05:30  INFO [user-service,,] 25348 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-28T23:12:30.256+05:30  INFO [user-service,,] 25348 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-28T23:12:30.263+05:30  INFO [user-service,,] 25348 --- [user-service] [SpringApplicationShutdownHook] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
