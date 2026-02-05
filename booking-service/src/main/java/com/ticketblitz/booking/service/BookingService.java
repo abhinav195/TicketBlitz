@@ -5,7 +5,7 @@ import com.ticketblitz.booking.client.UserClient;
 import com.ticketblitz.booking.dto.BookTicketRequest;
 import com.ticketblitz.booking.dto.BookingCreatedEvent;
 import com.ticketblitz.booking.dto.BookingResponse;
-import com.ticketblitz.booking.dto.EventDto; // Make sure you have this DTO
+import com.ticketblitz.booking.dto.EventDto;
 import com.ticketblitz.booking.entity.Booking;
 import com.ticketblitz.booking.entity.BookingStatus;
 import com.ticketblitz.booking.repository.BookingRepository;
@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -36,30 +38,46 @@ public class BookingService {
     public BookingResponse bookTicket(BookTicketRequest request, String authToken) {
         log.info("Starting booking for User {} Event {}", request.getUserId(), request.getEventId());
 
-        // 1. Validate User
-        try {
-            boolean userExists = userClient.validateUser(request.getUserId());
-            if (!userExists) {
-                throw new IllegalArgumentException("User ID not found");
+        // 1. ASYNC ORCHESTRATION: Fetch User and Event in PARALLEL
+        CompletableFuture<Boolean> userFuture = CompletableFuture.supplyAsync(() -> {
+            // FIX: Explicitly passing authToken to maintain context in new thread
+            return userClient.validateUser(request.getUserId(), authToken);
+        });
+
+        CompletableFuture<EventDto> eventFuture = CompletableFuture.supplyAsync(() -> {
+            ResponseEntity<EventDto> response = eventClient.getEventById(request.getEventId());
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                throw new IllegalArgumentException("Event not found");
             }
+            return response.getBody();
+        });
+
+        // Wait for both to complete
+        try {
+            CompletableFuture.allOf(userFuture, eventFuture).join();
         } catch (Exception e) {
-            log.error("User validation failed", e);
-            throw new IllegalArgumentException("Invalid User Service response");
+            log.error("Async Fetch Failed", e);
+            throw new RuntimeException("Failed to fetch User or Event details: " + e.getMessage());
         }
 
-        // 2. Fetch Event Details (SECURE WAY: Get price from DB, not Request)
-        ResponseEntity<EventDto> eventResponse = eventClient.getEventById(request.getEventId());
-
-        if (!eventResponse.getStatusCode().is2xxSuccessful() || eventResponse.getBody() == null) {
-            throw new IllegalArgumentException("Event not found with ID: " + request.getEventId());
+        // 2. Extract Results
+        boolean userExists;
+        EventDto eventDto;
+        try {
+            userExists = userFuture.get();
+            eventDto = eventFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Error retrieving async results", e);
         }
 
-        EventDto eventDto = eventResponse.getBody();
-        BigDecimal pricePerTicket = eventDto.getPrice();
+        if (!userExists) {
+            throw new IllegalArgumentException("User ID not found");
+        }
 
-        // 3. Reserve Tickets
-        ResponseEntity<Boolean> reservation = eventClient.reserveTickets(request.getEventId(), request.getTicketCount());
-
+        // 3. Reserve Tickets (Synchronous - Critical Write Operation)
+        // FIX: Passing authToken to synchronous call as well to be safe with security
+        ResponseEntity<Boolean> reservation = eventClient.reserveTickets(request.getEventId(), request.getTicketCount(), authToken);
         if (!Boolean.TRUE.equals(reservation.getBody())) {
             throw new IllegalStateException("Tickets sold out or unavailable.");
         }
@@ -70,15 +88,14 @@ public class BookingService {
         booking.setEventId(request.getEventId());
         booking.setTicketCount(request.getTicketCount());
 
-        // Calculation: Real Price from DB * Ticket Count
+        BigDecimal pricePerTicket = eventDto.getPrice();
         BigDecimal total = pricePerTicket.multiply(BigDecimal.valueOf(request.getTicketCount()));
-
         booking.setTotalPrice(total);
         booking.setStatus(BookingStatus.PENDING);
 
         Booking savedBooking = bookingRepository.save(booking);
 
-        // 5. Async: Send to Payment Service
+        // 5. Send to Payment Service
         BookingCreatedEvent event = new BookingCreatedEvent(
                 savedBooking.getId(),
                 savedBooking.getUserId(),
@@ -88,15 +105,15 @@ public class BookingService {
         );
 
         kafkaTemplate.send(PAYMENT_TOPIC, event);
-        log.info("Booking {} created. Amount: {}. Event sent to Kafka.", savedBooking.getId(), savedBooking.getTotalPrice());
+        log.info("Booking {} created. Async checks completed. Sent to Kafka.", savedBooking.getId());
 
         return bookingMapper.toResponse(savedBooking);
     }
 
+    @Transactional(readOnly = true)
     public BookingResponse getBookingById(Long id) {
         Booking booking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found with ID: " + id));
         return bookingMapper.toResponse(booking);
     }
 }

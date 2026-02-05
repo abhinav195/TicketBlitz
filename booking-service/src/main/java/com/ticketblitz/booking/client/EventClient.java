@@ -1,27 +1,27 @@
 package com.ticketblitz.booking.client;
 
 import com.ticketblitz.booking.dto.EventDto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "event-service", url = "${event-service.url}")
+@FeignClient(name = "event-service", url = "${event-service.url}", fallback = EventClientFallback.class)
 public interface EventClient {
+
     @GetMapping("/events/{id}")
-    ResponseEntity<EventDto> getEventById(@PathVariable("id") Long id);
+    @CircuitBreaker(name = "eventService")
+    ResponseEntity<EventDto> getEventById(@PathVariable("id") Long eventId);
 
     @PostMapping("/events/internal/{id}/reserve")
-    ResponseEntity<Boolean> reserveTickets(
-            @PathVariable("id") Long id,
-            @RequestParam("count") int count
-    );
+    @CircuitBreaker(name = "eventService")
+    ResponseEntity<Boolean> reserveTickets(@PathVariable("id") Long eventId,
+                                           @RequestParam("count") int count,
+                                           @RequestHeader("Authorization") String token);
 
-    /**
-     * SAGA COMPENSATING TRANSACTION
-     * If payment fails, we call this to add tickets back to the event.
-     */
-    @PutMapping("/events/{eventId}/release")
-    void releaseTickets(@PathVariable("eventId") Long eventId,
-                        @RequestParam("count") int count,
-                        @RequestHeader("Authorization") String token);
+    @PostMapping("/events/{id}/release")
+    @CircuitBreaker(name = "eventService")
+    ResponseEntity<Boolean> releaseTickets(@PathVariable("id") Long eventId,
+                                           @RequestParam("count") int count,
+                                           @RequestHeader("Authorization") String token);
 }

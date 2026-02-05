@@ -1,0 +1,10 @@
+[N/A] [2026-01-24T12:29:30.903471300Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-24T12:29:30.908680100Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success
+[N/A] [2026-01-24T12:39:26.923690900Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-24T12:39:26.925418300Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success
+[N/A] [2026-01-24T13:02:04.133894800Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-24T13:02:04.134896300Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success
+[N/A] [2026-01-24T13:06:00.992565100Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-24T13:06:00.995080900Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success
+[N/A] [2026-01-24T13:10:01.544861900Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-24T13:10:01.547606700Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success

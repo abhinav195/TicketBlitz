@@ -1,0 +1,2 @@
+[N/A] [2026-01-19T18:34:05.163106200Z] [user-2] Action: SEARCH | Details: Search executed | Duration: 500000 ns | Result: Fail
+[trace-123] [2026-01-19T18:34:05.167461500Z] [user-1] Action: CREATE_EVENT | Details: Event created | Duration: 1000000 ns | Result: Success

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  # ==========================================
-  # INFRASTRUCTURE SERVICES
-  # ==========================================
+  # ============================================
+  # DATABASES
+  # ============================================
 
   event-db:
     image: postgres:15-alpine
@@ -18,6 +18,11 @@ services:
       - ./data/event:/var/lib/postgresql/data
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   booking-db:
     image: postgres:15-alpine
@@ -32,6 +37,11 @@ services:
       - ./data/booking:/var/lib/postgresql/data
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   user-db:
     image: postgres:15-alpine
@@ -46,6 +56,11 @@ services:
       - ./data/user:/var/lib/postgresql/data
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   payment-db:
     image: postgres:15-alpine
@@ -60,14 +75,48 @@ services:
       - ./data/payment:/var/lib/postgresql/data
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  recommendation-db:
+    image: pgvector/pgvector:pg16
+    container_name: tb-recommendation-db
+    environment:
+      POSTGRES_DB: ticketblitz_recommendation
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abhinav195
+    ports:
+      - "5438:5432"
+    volumes:
+      - ./data/recommendation:/var/lib/postgresql/data
+      - ./recommendation-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # INFRASTRUCTURE
+  # ============================================
 
   redis:
-    image: redis:alpine
+    image: redis/redis-stack:latest
     container_name: tb-redis
     ports:
       - "6379:6379"
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   minio:
     image: minio/minio
@@ -83,6 +132,11 @@ services:
       - ./data/minio:/data
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -94,66 +148,60 @@ services:
       - "2181:2181"
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "echo srvr | nc localhost 2181 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     container_name: tb-kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     ports:
       - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: tb-zookeeper:2181
-      # Localhost listens on 9092, Internal Docker services listen on 29092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://tb-kafka:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
 
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: tb-jaeger
     ports:
-      - "16686:16686" # UI
-      - "4317:4317"
-      - "4318:4318"
-      - "9411:9411"   # Zipkin
+      - "16686:16686"  # Jaeger UI
+      - "4317:4317"    # OTLP gRPC
+      - "4318:4318"    # OTLP HTTP
+      - "9411:9411"    # Zipkin
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
     networks:
       - ticketblitz-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:14269"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 
-  # ==========================================
+  # ============================================
   # MICROSERVICES
-  # ==========================================
-
-  api-gateway:
-    build: ./api-gateway
-    container_name: tb-gateway
-    ports:
-      - "8080:8080"
-    environment:
-      # These override the defaults in application.yml
-      - AUTH_SERVICE_URL=http://tb-auth-service:8081
-      - EVENT_SERVICE_URL=http://tb-event-service:8082
-      - BOOKING_SERVICE_URL=http://tb-booking-service:8083
-      - PAYMENT_SERVICE_URL=http://tb-payment-service:8084
-      - USER_SERVICE_URL=http://tb-user-service:8085
-      - NOTIFICATION_SERVICE_URL=http://tb-notification-service:8086
-      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
-    depends_on:
-      - auth-service
-      - event-service
-      - booking-service
-      - payment-service
-      - user-service
-      - notification-service
-      - jaeger
-    networks:
-      - ticketblitz-net
+  # Only depend on INFRASTRUCTURE, not each other
+  # ============================================
 
   auth-service:
     build: ./auth-service
@@ -163,8 +211,42 @@ services:
     environment:
       - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
       - USER_SERVICE_URL=http://tb-user-service:8085
+    depends_on:
+      jaeger:
+        condition: service_healthy
     networks:
       - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
+
+  user-service:
+    build: ./user-service
+    container_name: tb-user-service
+    ports:
+      - "8085:8085"
+    environment:
+      - DB_HOST=tb-user-db
+      - DB_PORT=5432
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      user-db:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+    networks:
+      - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
 
   event-service:
     build: ./event-service
@@ -177,12 +259,27 @@ services:
       - REDIS_HOST=tb-redis
       - MINIO_URL=http://tb-minio:9000
       - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
     depends_on:
-      - event-db
-      - redis
-      - minio
+      event-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
     networks:
       - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8082/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
 
   booking-service:
     build: ./booking-service
@@ -192,19 +289,27 @@ services:
     environment:
       - DB_HOST=tb-booking-db
       - DB_PORT=5432
-      # Connects to internal listener on port 29092
-      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
       - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
       - EVENT_SERVICE_URL=http://tb-event-service:8082
       - PAYMENT_SERVICE_URL=http://tb-payment-service:8084
       - USER_SERVICE_URL=http://tb-user-service:8085
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
     depends_on:
-      - booking-db
-      - event-service
-      - user-service
-      - kafka
+      booking-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
     networks:
       - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
 
   payment-service:
     build: ./payment-service
@@ -214,31 +319,26 @@ services:
     environment:
       - DB_HOST=tb-payment-db
       - DB_PORT=5432
-      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
       - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
       - BOOKING_SERVICE_URL=http://tb-booking-service:8083
       - USER_SERVICE_URL=http://tb-user-service:8085
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
     depends_on:
-      - payment-db
-      - user-service
-      - kafka
+      payment-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
     networks:
       - ticketblitz-net
-
-  user-service:
-    build: ./user-service
-    container_name: tb-user-service
-    ports:
-      - "8085:8085"
-    environment:
-      - DB_HOST=tb-user-db
-      - DB_PORT=5432
-      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
-    depends_on:
-      - user-db
-      - auth-service
-    networks:
-      - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8084/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
 
   notification-service:
     build: ./notification-service
@@ -246,15 +346,120 @@ services:
     ports:
       - "8086:8086"
     environment:
-      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
       - USER_SERVICE_URL=http://tb-user-service:8085
-      - EVENT_SERVICE_URL=http://tb-event-service:8082
       - BOOKING_SERVICE_URL=http://tb-booking-service:8083
-      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tb-jaeger:4318
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
     networks:
       - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8086/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
+
+  recommendation-service:
+    build: ./recommendation-service
+    container_name: tb-recommendation-service
+    ports:
+      - "8087:8087"
+    environment:
+      # Database
+      - DB_HOST=tb-recommendation-db
+      - DB_PORT=5432
+      - DB_NAME=ticketblitz_recommendation
+      - DB_USER=postgres
+      - DB_PASSWORD=abhinav195
+
+      # Kafka
+      - KAFKA_BOOTSTRAP_SERVERS=tb-kafka:29092
+      - TOPIC_EVENTS_CREATED=ticketblitz.events.created
+      - TOPIC_RECOMMENDATION_REQUEST=recommendation.request
+      - TOPIC_EMAIL_DISPATCH=ticketblitz.email.dispatch
+      - KAFKA_GROUP_ID=recommendation-service
+
+      # Redis (Tier 2 Fallback)
+      - REDIS_HOST=tb-redis
+      - REDIS_PORT=6379
+
+      # Event Service (Tier 3 Fallback)
+      - EVENT_SERVICE_HOST=tb-event-service
+      - EVENT_SERVICE_PORT=8082
+      - EVENT_SERVICE_TIMEOUT=10
+
+      # Google Gemini API Keys - Chat (3-Key Rotation)
+      - GEMINI_API_KEY_1=AIzaSyC2jHxCvnuzisRg1CLoyTksQhBBlCrvrEo
+      - GEMINI_API_KEY_2=AIzaSyChCVxMTJBFu-C6mhNx5veQ-J9f9XGEqhU
+      - GEMINI_API_KEY_3=AIzaSyCyzSloB9D4zv18ugQ51_NR4RQpWHJ5rJ8
+
+      # Google Gemini API Keys - Embeddings (Optional, uses chat keys if not set)
+      - GEMINI_EMBEDDING_KEY_1=AIzaSyC2jHxCvnuzisRg1CLoyTksQhBBlCrvrEo
+      - GEMINI_EMBEDDING_KEY_2=AIzaSyChCVxMTJBFu-C6mhNx5veQ-J9f9XGEqhU
+      - GEMINI_EMBEDDING_KEY_3=AIzaSyCyzSloB9D4zv18ugQ51_NR4RQpWHJ5rJ8
+
+      # Vector/Embedding Configuration
+      - EMBEDDING_DIMENSION=768
+      - EMBEDDING_MODEL=models/gemini-embedding-001
+      - SIMILARITY_TOP_K=3
+
+      # Chat Model
+      - CHAT_MODEL=gemini-2.5-flash-lite
+
+      # OpenTelemetry
+      - OTEL_SERVICE_NAME=recommendation-service
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://tb-jaeger:4318
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_TRACES_EXPORTER=otlp
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_LOGS_EXPORTER=none
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+    depends_on:
+      recommendation-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
+    networks:
+      - ticketblitz-net
+    restart: unless-stopped
+
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: tb-gateway
+    ports:
+      - "8088:8080"
+    environment:
+      - AUTH_SERVICE_URL=http://tb-auth-service:8081
+      - EVENT_SERVICE_URL=http://tb-event-service:8082
+      - BOOKING_SERVICE_URL=http://tb-booking-service:8083
+      - PAYMENT_SERVICE_URL=http://tb-payment-service:8084
+      - USER_SERVICE_URL=http://tb-user-service:8085
+      - NOTIFICATION_SERVICE_URL=http://tb-notification-service:8086
+      - RECOMMENDATION_SERVICE_URL=http://tb-recommendation-service:8087
+      - ZIPKIN_ENDPOINT=http://tb-jaeger:9411/api/v2/spans
+    depends_on:
+      jaeger:
+        condition: service_healthy
+    networks:
+      - ticketblitz-net
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s  # Give Spring Boot time to start
 
 networks:
   ticketblitz-net:

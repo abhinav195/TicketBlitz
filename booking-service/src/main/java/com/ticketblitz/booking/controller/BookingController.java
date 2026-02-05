@@ -26,25 +26,14 @@ public class BookingController {
      * The Main Event: Handles high-concurrency booking requests.
      */
     @PostMapping
-    public ResponseEntity<BookingResponse> bookTicket(
-            @Valid @RequestBody BookTicketRequest request,
-            HttpServletRequest httpRequest, // Inject request to get attribute
-            @RequestHeader("Authorization") String token
-    ) {
-        // SECURITY OVERRIDE:
-        // Ignore what the hacker sent in request.getUserId()
-        // Use the trusted ID from the JWT Interceptor
-        Long authenticatedUserId = (Long) httpRequest.getAttribute("authenticatedUserId");
-        request.setUserId(authenticatedUserId);
-
-        BookingResponse response = bookingService.bookTicket(request, token);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookTicketRequest request,
+                                                         @RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(bookingService.bookTicket(request, token));
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<BookingResponse> getBookingById(@PathVariable Long id) {
-        // You might need to add this method to your BookingService too
-        // if it doesn't exist yet.
         return ResponseEntity.ok(bookingService.getBookingById(id));
     }
 }

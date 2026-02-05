@@ -5,10 +5,13 @@ spring:
   application:
     name: notification-service
 
+  # ============================================
+  # KAFKA CONFIGURATION
+  # ============================================
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
-      group-id: notification-group
+      group-id: notification-gateway-group
       auto-offset-reset: earliest
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
@@ -16,52 +19,102 @@ spring:
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: "*"
-        spring.json.value.default.type: com.ticketblitz.notification.dto.PaymentUpdateEvent
         spring.json.use.type.headers: false
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
 
+  # ============================================
+  # SMTP CONFIGURATION WITH FAULT TOLERANCE
+  # ============================================
   mail:
-    host: sandbox.smtp.mailtrap.io
-    port: 2525
-    username: 017d6228cba26f
-    password: 0b7c9ca19c1b02
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USERNAME:df8eda52f49161}
+    password: ${MAIL_PASSWORD:d00a7a937ed764}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          # TIMEOUTS: Prevent Hanging
+          connectiontimeout: 5000  # 5 seconds to establish connection
+          timeout: 5000            # 5 seconds for socket read timeout
+          writetimeout: 5000       # 5 seconds for socket write timeout
+          debug: false
 
+# ============================================
+# OBSERVABILITY: OpenTelemetry + Jaeger
+# ============================================
 management:
   tracing:
     sampling:
-      probability: 1.0
-  zipkin:
+      probability: 1.0  # Trace 100% of requests (dev/staging)
+  otlp:
     tracing:
-      endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
-  propagation:
-    type: [ "w3c", "b3" ]
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://tb-jaeger:4318}/v1/traces
+      timeout: 10s
+      compression: gzip
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
+  # OpenTelemetry OTLP Exporter Configuration
+  # Changed from localhost:4318 to tb-jaeger:4318 (Docker service name)
+
+  # DISTRIBUTED TRACING PROPAGATION
+  propagation:
+    type: w3c, b3  # Support both W3C Trace Context and B3 (Zipkin)
+
+# ============================================
+# LOGGING WITH TRACE CONTEXT
+# ============================================
 logging:
   level:
     root: INFO
     com.ticketblitz: DEBUG
-  file:
-    name: logs/notification-service.log
+    org.springframework.mail: DEBUG  # Debug SMTP issues
   pattern:
-    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    level: "%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} [traceId=%X{traceId:-}, spanId=%X{spanId:-}] - %msg%n"
 
-gemini:
-  api-key: AIzaSyB5ZgbsKSrXcWAL7waS2ZfV7pMhrmSYfrY
-  url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+# ============================================
+# SPRING RETRY CONFIGURATION
+# ============================================
+spring.retry:
+  enabled: true
 
+# ============================================
+# Feign Client URLs
+# ============================================
 user-service:
   url: ${USER_SERVICE_URL:http://localhost:8085}
-event-service:
-  url: ${EVENT_SERVICE_URL:http://localhost:8082}
+
 booking-service:
   url: ${BOOKING_SERVICE_URL:http://localhost:8083}
 
-jwt:
-  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
-  expiration: 86400000
+# ============================================
+# Kafka Topics
+# ============================================
+kafka:
+  topics:
+    payment-updates: payment.updates
+    recommendation-request: recommendation.request
+    email-dispatch: notification.email.dispatch
+
+# ============================================
+# CUSTOM RETRY CONFIG
+# ============================================
+email:
+  retry:
+    max-attempts: 3
+    initial-backoff: 1000  # 1 second
+    multiplier: 2.0        # Exponential: 1s, 2s, 4s

@@ -21,14 +21,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Cleaner syntax for disabling CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless REST API
                 .authorizeHttpRequests(auth -> auth
-                        // Allow Booking Service to call these endpoints without a token
+                        // Allow all requests to /events/** (JWT filter handles authentication)
                         .requestMatchers("/events/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll() // If you use health checks
+                        .requestMatchers("/actuator/**").permitAll() // Health checks
                         .anyRequest().authenticated()
                 )
-                // Register JWT Filter
+                // Register JWT Filter before UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

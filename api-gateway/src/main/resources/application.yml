@@ -9,7 +9,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "${CORS_ALLOWED_ORIGINS:http://localhost:3000}"
+            allowedOriginPatterns: "*"
             allowedMethods: "*"
             allowedHeaders: "*"
             allowCredentials: true
@@ -17,47 +17,71 @@ spring:
       routes:
         # 1. Auth Service
         - id: auth-service
-          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          uri: ${AUTH_SERVICE_URL:http://tb-auth-service:8081}
           predicates:
-            - Path=/auth/**
+            - Path=/api/v1/auth/**
+          filters:
+            - StripPrefix=2
 
         # 2. Event Service
         - id: event-service
-          uri: ${EVENT_SERVICE_URL:http://localhost:8082}
+          uri: ${EVENT_SERVICE_URL:http://tb-event-service:8082}
           predicates:
-            - Path=/events/**
+            - Path=/api/v1/events/**
+          filters:
+            - StripPrefix=2
 
         # 3. Booking Service
         - id: booking-service
-          uri: ${BOOKING_SERVICE_URL:http://localhost:8083}
+          uri: ${BOOKING_SERVICE_URL:http://tb-booking-service:8083}
           predicates:
-            - Path=/bookings/**
+            - Path=/api/v1/bookings/**
+          filters:
+            - StripPrefix=2
 
         # 4. Payment Service
         - id: payment-service
-          uri: ${PAYMENT_SERVICE_URL:http://localhost:8084}
+          uri: ${PAYMENT_SERVICE_URL:http://tb-payment-service:8084}
           predicates:
-            - Path=/payments/**
+            - Path=/api/v1/payments/**
+          filters:
+            - StripPrefix=2
 
         # 5. User Service
         - id: user-service
-          uri: ${USER_SERVICE_URL:http://localhost:8085}
+          uri: ${USER_SERVICE_URL:http://tb-user-service:8085}
           predicates:
-            - Path=/users/**
+            - Path=/api/v1/users/**
+          filters:
+            - StripPrefix=2
 
         # 6. Notification Service
         - id: notification-service
-          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8086}
+          uri: ${NOTIFICATION_SERVICE_URL:http://tb-notification-service:8086}
           predicates:
-            - Path=/notifications/**
+            - Path=/api/v1/notifications/**
+          filters:
+            - StripPrefix=2
+
+        # 7. Recommendation Service (NEW)
+        - id: recommendation-service
+          uri: ${RECOMMENDATION_SERVICE_URL:http://tb-recommendation-service:8087}
+          predicates:
+            - Path=/api/v1/recommendations/**
+          filters:
+            - StripPrefix=2
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info,metrics
   tracing:
     sampling:
       probability: 1.0
   zipkin:
     tracing:
-      endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
+      endpoint: "${ZIPKIN_ENDPOINT:http://tb-jaeger:9411/api/v2/spans}"
   propagation:
     type: [ "w3c", "b3" ]
 

@@ -31,6 +31,12 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
         spring.json.type.mapping: "bookingCreated:com.ticketblitz.payment.dto.BookingCreatedEvent"
+        # --- ADDED STABILITY CONFIGS ---
+        session.timeout.ms: 45000
+        heartbeat.interval.ms: 15000
+        max.poll.interval.ms: 300000
+        request.timeout.ms: 30000
+        internal.leave.group.on.close: true
 
 stripe:
   api-key: sk_test_51SijFP1Xw8kAwTT2nbDJxqPHXQJRpWFeaHvQ1QlHLZX8IDTs8Pc4mMb8sXbRGjSxLu7tVTY8WyAU8MwsJm9dPWpk00PjosP9Li
@@ -53,7 +59,10 @@ logging:
   level:
     root: INFO
     com.ticketblitz.payment: DEBUG
+    # --- FIXED LOGGING NOISE ---
     org.apache.kafka: WARN
+    org.apache.kafka.clients.NetworkClient: ERROR
+    org.apache.kafka.clients.consumer.internals.ConsumerCoordinator: ERROR
 
 jwt:
   secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
@@ -64,3 +73,19 @@ booking-service:
 
 user-service:
   url: ${USER_SERVICE_URL:http://localhost:8085}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      stripeService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      userService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s

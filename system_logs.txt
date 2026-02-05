@@ -1,0 +1,87 @@
+tb-user-service  | 
+tb-user-service  |   .   ____          _            __ _ _
+tb-user-service  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-user-service  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-user-service  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-user-service  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-user-service  |  =========|_|==============|___/=/_/_/_/
+tb-user-service  |  :: Spring Boot ::                (v3.2.3)
+tb-user-service  | 
+tb-user-service  | 2026-01-16 01:18:49 [main] INFO  c.t.user.UserServiceApplication - Starting UserServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-user-service  | 2026-01-16 01:18:49 [main] DEBUG c.t.user.UserServiceApplication - Running with Spring Boot v3.2.3, Spring v6.1.4
+tb-user-service  | 2026-01-16 01:18:49 [main] INFO  c.t.user.UserServiceApplication - No active profile set, falling back to 1 default profile: "default"
+tb-user-service  | 2026-01-16 01:19:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+tb-user-service  | 2026-01-16 01:19:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 282 ms. Found 1 JPA repository interface.
+tb-event-service  | 
+tb-event-service  |   .   ____          _            __ _ _
+tb-event-service  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-event-service  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-event-service  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-event-service  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-event-service  |  =========|_|==============|___/=/_/_/_/
+tb-event-service  | 
+tb-event-service  |  :: Spring Boot ::                (v3.5.9)
+tb-event-service  | 
+tb-event-service  | 2026-01-16T01:18:54.754Z  INFO [event-service,,] 1 --- [event-service] [           main] [                                                 ] c.t.event.EventServiceApplication        : Starting EventServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-event-service  | 2026-01-16T01:18:54.817Z  INFO [event-service,,] 1 --- [event-service] [           main] [                                                 ] c.t.event.EventServiceApplication        : No active profile set, falling back to 1 default profile: "default"
+tb-gateway        | 
+tb-gateway        |   .   ____          _            __ _ _
+tb-gateway        |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-gateway        | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-gateway        |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-gateway        |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-gateway        |  =========|_|==============|___/=/_/_/_/
+tb-gateway        |  :: Spring Boot ::                (v3.2.3)
+tb-gateway        | 
+tb-gateway        | 2026-01-16T01:18:54.241Z  INFO 1 --- [api-gateway] [           main] c.t.gateway.ApiGatewayApplication        : Starting ApiGatewayApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-gateway        | 2026-01-16T01:18:54.276Z  INFO 1 --- [api-gateway] [           main] c.t.gateway.ApiGatewayApplication        : No active profile set, falling back to 1 default profile: "default"
+tb-auth-service   | 
+tb-auth-service   |   .   ____          _            __ _ _
+tb-auth-service   |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-auth-service   | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-auth-service   |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-auth-service   |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-auth-service   |  =========|_|==============|___/=/_/_/_/
+tb-auth-service   | 
+tb-auth-service   |  :: Spring Boot ::                (v3.5.9)
+tb-auth-service   | 
+tb-auth-service   | 2026-01-16T01:18:49.683Z  INFO [auth-service,,] 1 --- [auth-service] [           main] [                                                 ] c.t.auth.AuthServiceApplication          : Starting AuthServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-auth-service   | 2026-01-16T01:18:49.710Z DEBUG [auth-service,,] 1 --- [auth-service] [           main] [                                                 ] c.t.auth.AuthServiceApplication          : Running with Spring Boot v3.5.9, Spring v6.2.15
+tb-auth-service   | 2026-01-16T01:18:49.726Z  INFO [auth-service,,] 1 --- [auth-service] [           main] [                                                 ] c.t.auth.AuthServiceApplication          : No active profile set, falling back to 1 default profile: "default"
+tb-auth-service   | 2026-01-16T01:19:02.927Z  INFO [auth-service,,] 1 --- [auth-service] [           main] [                                                 ] o.s.cloud.context.scope.GenericScope     : BeanFactory id=5d6b7db6-ea7d-3500-b5a2-431bbe3c2d9b
+tb-payment-service  | 
+tb-payment-service  |   .   ____          _            __ _ _
+tb-booking-service  | 
+tb-booking-service       |   .   ____          _            __ _ _
+tb-booking-service       |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-booking-service       | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-booking-service       |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-booking-service       |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-booking-service       |  =========|_|==============|___/=/_/_/_/
+tb-booking-service       |  :: Spring Boot ::                (v3.2.3)
+tb-booking-service       | 
+tb-booking-service       | 2026-01-16T01:18:52.783Z  INFO 1 --- [booking-service] [           main] [                                                 ] c.t.booking.BookingServiceApplication    : Starting BookingServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-booking-service       | 2026-01-16T01:18:52.825Z  INFO 1 --- [booking-service] [           main] [                                                 ] c.t.booking.BookingServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+tb-payment-service  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-payment-service       | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-payment-service       |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-payment-service       |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-payment-service       |  =========|_|==============|___/=/_/_/_/
+tb-payment-service       |  :: Spring Boot ::                (v3.2.3)
+tb-payment-service       | 
+tb-payment-service       | 2026-01-16 01:18:51 [main] INFO  c.t.p.PaymentServiceApplication - Starting PaymentServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-payment-service       | 2026-01-16 01:18:51 [main] DEBUG c.t.p.PaymentServiceApplication - Running with Spring Boot v3.2.3, Spring v6.1.4
+tb-payment-service       | 2026-01-16 01:18:51 [main] INFO  c.t.p.PaymentServiceApplication - No active profile set, falling back to 1 default profile: "default"
+tb-notification-service  | 
+tb-notification-service  |   .   ____          _            __ _ _
+tb-notification-service  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+tb-notification-service  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+tb-notification-service  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+tb-notification-service  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+tb-notification-service  |  =========|_|==============|___/=/_/_/_/
+tb-notification-service  | 
+tb-notification-service  |  :: Spring Boot ::                (v3.4.1)
+tb-notification-service  | 
+tb-notification-service  | 2026-01-16 01:18:52 [main] INFO  c.t.n.NotificationServiceApplication - Starting NotificationServiceApplication v0.0.1-SNAPSHOT using Java 21.0.9 with PID 1 (/app/app.jar started by root in /app)
+tb-notification-service  | 2026-01-16 01:18:53 [main] DEBUG c.t.n.NotificationServiceApplication - Running with Spring Boot v3.4.1, Spring v6.2.1
+tb-notification-service  | 2026-01-16 01:18:53 [main] INFO  c.t.n.NotificationServiceApplication - No active profile set, falling back to 1 default profile: "default"

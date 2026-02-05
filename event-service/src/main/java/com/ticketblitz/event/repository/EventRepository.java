@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
@@ -44,4 +45,11 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
     @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value = "3000")}) // Fail fast if locked too long
     @Query("SELECT e FROM Event e WHERE e.id = :id")
     Optional<Event> findByIdLocked(@Param("id")Long id);
+
+    @Query("""
+            SELECT e FROM Event e
+            WHERE e.date > CURRENT_TIMESTAMP
+            ORDER BY e.date ASC
+            """)
+    List<Event> findLatestEvents(Pageable pageable);
 }

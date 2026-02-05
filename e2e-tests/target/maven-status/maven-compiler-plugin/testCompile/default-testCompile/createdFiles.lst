@@ -1,0 +1,5 @@
+com\ticketblitz\e2e\TicketBlitzE2ETest$RegisterRequest.class
+com\ticketblitz\e2e\TicketBlitzE2ETest$BookTicketRequest.class
+com\ticketblitz\e2e\TicketBlitzE2ETest.class
+com\ticketblitz\e2e\TicketBlitzE2ETest$AuthResponse.class
+com\ticketblitz\e2e\TicketBlitzE2ETest$AuthRequest.class

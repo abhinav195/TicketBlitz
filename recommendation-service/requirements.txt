@@ -1,0 +1,67 @@
+# ============================================
+# WEB FRAMEWORK
+# ============================================
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# ============================================
+# KAFKA
+# ============================================
+aiokafka==0.10.0
+kafka-python==2.0.2
+
+# ============================================
+# DATABASE
+# ============================================
+sqlalchemy[asyncio]==2.0.25
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+pgvector==0.2.4
+
+# ============================================
+# REDIS (TIER 2 FALLBACK)
+# ============================================
+redis[hiredis]==5.0.1
+
+# ============================================
+# AI/ML - GOOGLE GENERATIVE AI
+# ============================================
+langchain==0.1.0
+langchain-google-genai==0.0.6
+google-generativeai==0.3.2
+langchain-core==0.1.10
+
+# ============================================
+# HTTP CLIENT (TIER 3 FALLBACK)
+# ============================================
+httpx==0.26.0
+
+# ============================================
+# CIRCUIT BREAKER (OPTIONAL - NOT USED IN TIER 1)
+# ============================================
+pybreaker==1.0.1
+
+# ============================================
+# OPENTELEMETRY (DISTRIBUTED TRACING)
+# ============================================
+opentelemetry-api==1.22.0
+opentelemetry-sdk==1.22.0
+opentelemetry-instrumentation-fastapi==0.43b0
+opentelemetry-instrumentation-sqlalchemy==0.43b0
+opentelemetry-instrumentation-httpx==0.43b0
+opentelemetry-instrumentation-logging==0.43b0
+opentelemetry-exporter-otlp-proto-http==1.22.0
+opentelemetry-instrumentation-requests
+
+# ============================================
+# UTILITIES
+# ============================================
+python-dotenv==1.0.0
+python-json-logger==2.0.7
+
+# ============================================
+# NUMPY (FOR VECTOR OPERATIONS)
+# ============================================
+numpy==1.26.3

@@ -17,7 +17,7 @@ public interface BookingClient {
     class BookingDto {
         private Long id;
         private Long userId;
-        private Long eventId; // <--- This is the key piece of data we need
+        private Long eventId;
         private String status;
     }
 }

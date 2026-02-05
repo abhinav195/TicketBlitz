@@ -1,20 +1,21 @@
 package com.ticketblitz.payment.service;
 
-import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
 import com.ticketblitz.payment.dto.BookingCreatedEvent;
 import com.ticketblitz.payment.entity.Payment;
 import com.ticketblitz.payment.event.PaymentProducer;
+import com.ticketblitz.payment.exception.PaymentGatewayException;
 import com.ticketblitz.payment.repository.PaymentRepository;
-import jakarta.annotation.PostConstruct;
+import com.stripe.Stripe;
+import com.stripe.model.Charge;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -27,102 +28,71 @@ public class PaymentService {
     @Value("${stripe.api-key}")
     private String stripeApiKey;
 
-    @Value("${stripe.currency}")
-    private String currency; // "inr"
+    // FIXED: Inject currency from application.yml (defaults to 'inr' if missing)
+    @Value("${stripe.currency:inr}")
+    private String currency;
 
-    @PostConstruct
-    public void init() {
-        if (stripeApiKey == null || stripeApiKey.startsWith("sk_test_YOUR_KEY")) {
-            log.warn("⚠️ STRIPE API KEY NOT SET! Please check application.yml");
-        } else {
-            Stripe.apiKey = stripeApiKey;
-            log.info("✅ Stripe Initialized with Currency: {}", currency.toUpperCase());
-        }
-    }
-
+    @CircuitBreaker(name = "stripeService", fallbackMethod = "stripeFallback")
     public void processPayment(BookingCreatedEvent event) {
-        log.info("Processing payment for Booking ID: {} | Amount: ₹{}", event.getBookingId(), event.getAmount());
-
-        String status = "FAILED";
-        String transactionId = null;
+        Stripe.apiKey = stripeApiKey;
 
         try {
-            // 1. Validation (Example: Logic limit for testing, can be removed for prod)
-            if (event.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-                log.error("❌ Invalid Amount: ₹{}. Aborting payment.", event.getAmount());
-                return; // Don't even reply if data is garbage
-            }
+            Map<String, Object> chargeParams = new HashMap<>();
+            // Stripe expects amount in the smallest currency unit (e.g., cents for USD, paise for INR)
+            chargeParams.put("amount", event.getAmount().multiply(BigDecimal.valueOf(100)).intValue());
 
-            // 2. Conversion: INR -> Paise
-            long amountInPaise = event.getAmount().multiply(BigDecimal.valueOf(100)).longValue();
+            // FIXED: Use the configured currency instead of hardcoded "usd"
+            chargeParams.put("currency", currency);
 
-            // 3. Build Stripe Request
-            PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-                    .setAmount(amountInPaise)
-                    .setCurrency(currency)
-                    .setDescription("TicketBlitz Booking: " + event.getBookingId())
-                    .setPaymentMethod("pm_card_visa") // Test Card (Always valid)
-                    .setConfirm(true) // Charge immediately
-                    .setAutomaticPaymentMethods(
-                            PaymentIntentCreateParams.AutomaticPaymentMethods.builder()
-                                    .setEnabled(true)
-                                    .setAllowRedirects(PaymentIntentCreateParams.AutomaticPaymentMethods.AllowRedirects.NEVER)
-                                    .build()
-                    )
-                    .build();
+            chargeParams.put("source", "tok_visa"); // Test token
+            chargeParams.put("description", "Booking ID: " + event.getBookingId());
 
-            // 4. Execute Charge
-            log.info("🚀 Calling Stripe API...");
-            PaymentIntent paymentIntent = PaymentIntent.create(params);
+            // External Call to Stripe
+            Charge charge = Charge.create(chargeParams);
 
-            if ("succeeded".equals(paymentIntent.getStatus())) {
-                status = "SUCCESS";
-                transactionId = paymentIntent.getId();
-                log.info("✅ STRIPE SUCCESS | ID: {}", transactionId);
-            } else {
-                status = "FAILED";
-                transactionId = paymentIntent.getId();
-                log.warn("⚠️ STRIPE FAILED/PENDING | Status: {}", paymentIntent.getStatus());
-            }
+            log.info("Payment Successful. Stripe ID: {}", charge.getId());
+            savePayment(event, "SUCCESS", charge.getId());
 
-        } catch (StripeException e) {
-            log.error("❌ STRIPE EXCEPTION | Code: {} | Message: {}", e.getCode(), e.getMessage());
-            status = "FAILED";
-            transactionId = "STRIPE_ERROR_" + e.getCode();
+            // Send Success Event to Kafka
+            paymentProducer.sendPaymentResult(
+                    event.getBookingId(),
+                    "SUCCESS",
+                    charge.getId(),
+                    event.getUserId(),
+                    event.getAuthToken()
+            );
+
         } catch (Exception e) {
-            log.error("❌ UNEXPECTED ERROR during payment processing", e);
-            status = "FAILED";
-            transactionId = "INTERNAL_ERROR";
-        }
-
-        // 5. Save to DB
-        savePaymentRecord(event, status, transactionId);
-
-        // 6. Send Saga Reply
-        sendSagaReply(event, status, transactionId);
-    }
-
-    private void savePaymentRecord(BookingCreatedEvent event, String status, String transactionId) {
-        try {
-            Payment payment = new Payment();
-            payment.setBookingId(event.getBookingId());
-            payment.setUserId(event.getUserId());
-            payment.setAmount(event.getAmount());
-            payment.setStatus(status);
-            payment.setStripePaymentId(transactionId);
-            paymentRepository.save(payment);
-        } catch (Exception e) {
-            log.error("Failed to save Payment record to DB", e);
+            log.error("Stripe Charge Failed", e);
+            throw new RuntimeException("Payment Gateway Failure");
         }
     }
 
-    private void sendSagaReply(BookingCreatedEvent event, String status, String transactionId) {
+    // FALLBACK METHOD
+    public void stripeFallback(BookingCreatedEvent event, Throwable t) {
+        log.error("🛑 CIRCUIT OPEN or Stripe Down. Executing Fallback for Booking: {}", event.getBookingId());
+        savePayment(event, "FAILED", "FALLBACK_ERROR");
+
+        // Send Failed Event so Booking Service knows to cancel
         paymentProducer.sendPaymentResult(
                 event.getBookingId(),
-                status,
-                transactionId,
+                "FAILED",
+                "FALLBACK_ERROR",
                 event.getUserId(),
                 event.getAuthToken()
         );
+
+        // Throwing specific exception to trigger Saga Compensation
+        throw new PaymentGatewayException("Payment Service Unavailable. Please try again later.");
+    }
+
+    private void savePayment(BookingCreatedEvent event, String status, String txId) {
+        Payment payment = new Payment();
+        payment.setBookingId(event.getBookingId());
+        payment.setUserId(event.getUserId());
+        payment.setAmount(event.getAmount());
+        payment.setStatus(status);
+        payment.setStripePaymentId(txId);
+        paymentRepository.save(payment);
     }
 }

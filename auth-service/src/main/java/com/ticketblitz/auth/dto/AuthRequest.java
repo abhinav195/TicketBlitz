@@ -1,11 +1,27 @@
 package com.ticketblitz.auth.dto;
-import lombok.Data;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRequest {
-    @NotBlank
+
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 50, message = "Username must be 3-50 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9._-]+$", message = "Username contains invalid characters")
     private String username;
-    @NotBlank
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, max = 64, message = "Password must be 8-64 characters")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{8,64}$",
+            message = "Password must include upper, lower, digit, and special character"
+    )
     private String password;
 }

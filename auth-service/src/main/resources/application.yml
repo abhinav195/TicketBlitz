@@ -30,3 +30,25 @@ logging:
 
 user-service:
   url: ${USER_SERVICE_URL:http://localhost:8085}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 5
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2s
+
+  retry:
+    instances:
+      userService:
+        maxAttempts: 3
+        waitDuration: 500ms
+        retryExceptions:
+          - feign.RetryableException
+          - java.io.IOException

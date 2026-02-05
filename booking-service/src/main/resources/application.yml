@@ -4,9 +4,7 @@ server:
 spring:
   application:
     name: booking-service
-
   datasource:
-    # Local: localhost:5434 | Docker: booking-db:5432
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5434}/ticketblitz_booking
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:abhinav195}
@@ -14,7 +12,6 @@ spring:
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -23,34 +20,32 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        generate_statistics: false
-
   flyway:
     enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
-
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.type.mapping: "bookingCreated:com.ticketblitz.booking.dto.BookingCreatedEvent"
-
     consumer:
       group-id: booking-group
       auto-offset-reset: earliest
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-
       properties:
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: "*"
         spring.json.value.default.type: com.ticketblitz.booking.dto.PaymentUpdateEvent
         spring.json.use.type.headers: false
+        # Critical stability fixes
+        session.timeout.ms: 45000
+        heartbeat.interval.ms: 15000
+        max.poll.interval.ms: 300000
+        request.timeout.ms: 30000
+        internal.leave.group.on.close: true
 
 management:
   tracing:
@@ -59,17 +54,8 @@ management:
   zipkin:
     tracing:
       endpoint: "${ZIPKIN_ENDPOINT:http://localhost:9411/api/v2/spans}"
-  propagation:
-    type: [ "w3c", "b3" ]
-
-logging:
-  level:
-    root: INFO
-    com.ticketblitz.booking: DEBUG
-  file:
-    name: logs/booking-service.log
-  pattern:
-    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+      connect-timeout: 5s
+      read-timeout: 5s
 
 jwt:
   secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B59703373367639792F423F4528482B4D6251655468576D5A7134743777217A25432A"
@@ -78,5 +64,31 @@ jwt:
 event-service:
   url: ${EVENT_SERVICE_URL:http://localhost:8082}
 
-payment-service:
-  url: ${PAYMENT_SERVICE_URL:http://localhost:8084}
+user-service:
+  url: ${USER_SERVICE_URL:http://localhost:8085}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+      eventService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    com.ticketblitz: DEBUG
+    # --- FIXED LOGGING NOISE ---
+    org.apache.kafka: WARN
+    org.apache.kafka.clients.NetworkClient: ERROR
+    org.apache.kafka.clients.consumer.internals.ConsumerCoordinator: ERROR
